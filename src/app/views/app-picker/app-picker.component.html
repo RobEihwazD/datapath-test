@@ -1,0 +1,12 @@
+<mat-toolbar color="secondary">
+    <mat-toolbar-row>
+        <button mat-button type="button" (click)="addRemoteAppConfig()">Add new config</button>
+    </mat-toolbar-row>
+</mat-toolbar>
+<form [formGroup]="appLauncherForm" (ngSubmit)="onSubmit()" novalidate>
+  <mat-grid-list #buttonContainer cols="3" >
+    <mat-grid-tile *ngFor="let config of remoteAppData">
+        <button type="button" id="config.id" class="launch-button" [appButtonColor]="config.colour" >{{config.alias}}</button>
+    </mat-grid-tile>
+  </mat-grid-list>
+</form>

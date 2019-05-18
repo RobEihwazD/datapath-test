@@ -1,0 +1,22 @@
+<form [formGroup]="newRemoteConfigForm" (ngSubmit)="onSubmit()">
+  <mat-form-field class="full-width">
+    <mat-label>Select application</mat-label>
+    <mat-select formControlName="namedApplication">
+      <mat-option *ngFor="let app of applicationsList" [value]="app">
+        {{ app }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <mat-label>Alias</mat-label>
+    <input matInput placeholder="alias" formControlName="alias" required />
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <mat-label>Colour</mat-label>
+    <input matInput [(colorPicker)]="defaultColour" [style.background]="defaultColour"
+    (colorPickerChange)="defaultColour=$event" [(value)]="defaultColour" name="colour" formControlName="colour" required/>
+  </mat-form-field>
+
+  <button mat-button type="submit">Save</button>
+
+</form>
