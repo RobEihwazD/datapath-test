@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
+import { SharedModule } from '@app/shared/shared.module';
 import { MaterialDesignModule } from '@app/shared/material-design.module';
 import { ViewsModule } from '@app/views/views.module';
 
@@ -20,6 +20,7 @@ import { ApiModule } from '@app/shared';
     HttpClientModule,
     MaterialDesignModule,
     ViewsModule,
+    SharedModule,
     ApiModule
   ],
   providers: [],

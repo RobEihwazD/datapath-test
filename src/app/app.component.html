@@ -1,7 +1,10 @@
+<div fxFlex fxLayout="column" style="height:100vh">
 <mat-toolbar color="primary">
-    <mat-toolbar-row>
-        <span>Remote programme Laucher</span>
+    <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-evenly center" >
+          <div ngStyle.sm="'font-size': '12px'"
+          ngStyle.gt-sm="font-size: 24px"><p>Remote App Launcher</p> </div>
     </mat-toolbar-row>
 </mat-toolbar>
 
 <router-outlet></router-outlet>
+</div>

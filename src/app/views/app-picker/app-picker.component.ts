@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray} from '@angular/forms';
-
+import { MediaObserver } from '@angular/flex-layout';
 import { RemoteLaunchConfigItem } from '@app/shared';
 import { DefaultService } from '@app/shared/api/default.service';
 import { MatDialog } from '@angular/material';
 import { AppPickerModalityComponent } from './components/app-picker-modality/app-picker-modality.component';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-app-picker',
@@ -13,13 +14,24 @@ import { AppPickerModalityComponent } from './components/app-picker-modality/app
 })
 export class AppPickerComponent implements OnInit {
 
-  appLauncherForm: FormGroup;
+  public appLauncherForm: FormGroup;
 
-  remoteAppData:  RemoteLaunchConfigItem[];
+  public remoteAppData:  RemoteLaunchConfigItem[];
+
+  public isMobile: boolean = false;
+
+  public routineRunning : boolean = false;
 
   constructor(private fb : FormBuilder,
               public dialog: MatDialog,
-              private api: DefaultService  ) { }
+              private api: DefaultService,
+              breakpointObserver: BreakpointObserver ) {
+                breakpointObserver.observe([
+                  Breakpoints.Handset
+                ]).subscribe(result => {
+                  this.isMobile = result.matches;
+                });
+               }
 
   ngOnInit() {
 
@@ -40,7 +52,8 @@ export class AppPickerComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed result', result);
-      this.remoteAppData.push(result);
+      if(result){
+      this.remoteAppData.push(result);}
     });
   }
 
@@ -74,6 +87,22 @@ export class AppPickerComponent implements OnInit {
     configFour.id = 1;
 
     return [configOne,configTwo,configThree, configFour]
+  }
+
+  createRemoteConFig():void{
+
+  }
+
+  deleteRemoteConfigs():void{
+
+  }
+
+  updateRemoteConfig():void{
+
+  }
+
+  runRemoteApp(config:RemoteLaunchConfigItem):void{
+
   }
 
 

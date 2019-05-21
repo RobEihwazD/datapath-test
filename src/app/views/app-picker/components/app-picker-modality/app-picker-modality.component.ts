@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { FormBuilder, FormGroup, FormArray, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, FormControl} from '@angular/forms';
 import { DefaultService } from '@app/shared/api/default.service';
 import { RemoteLaunchConfigItem } from '@app/shared';
 @Component({
@@ -16,7 +16,7 @@ export class AppPickerModalityComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<AppPickerModalityComponent>,
     @Inject(MAT_DIALOG_DATA) public data: RemoteLaunchConfigItem,
-    private fb:FormBuilder,
+    private fb:  FormBuilder,
     private api: DefaultService
 
   ) { }
@@ -30,12 +30,18 @@ export class AppPickerModalityComponent implements OnInit {
     this.newRemoteConfigForm = this.fb.group({
       namedApplication: ['', Validators.required],
       alias: ['', Validators.required],
-      colour: [this.defaultColour, Validators.required]
+      colour: ['', Validators.required]
     })
   }
 
+  onColorSelected(event:any):void{
+    console.group('  on colour selected ', event)
+    const control:FormControl = this.newRemoteConfigForm.get('colour') as FormControl
+    control.setValue(event);
+    control.markAsDirty();
+  }
+
   onSubmit():void{
-    console.log('this.newRemoteConfigForm.value ' , this.newRemoteConfigForm.value)
     this.dialogRef.close( this.newRemoteConfigForm.value as RemoteLaunchConfigItem);
   }
 
