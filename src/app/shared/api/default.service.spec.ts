@@ -2,7 +2,6 @@ import { TestBed , getTestBed } from '@angular/core/testing';
 
 import { DefaultService } from './default.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { of, defer } from 'rxjs';
 import {environment} from '@env/environment'
 describe('DefaultService', () => {
 

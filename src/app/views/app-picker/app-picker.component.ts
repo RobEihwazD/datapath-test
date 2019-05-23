@@ -1,11 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, FormArray } from "@angular/forms";
+import { FormBuilder, FormGroup } from "@angular/forms";
 import { RemoteLaunchConfigItem } from "@app/shared";
 import { DefaultService } from "@app/shared/api/default.service";
 import { MatDialog, MatSnackBar } from "@angular/material";
 import { AppPickerModalityComponent } from "./components/app-picker-modality/app-picker-modality.component";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
-import { BehaviorSubject, Observer, Subscriber, Subscription , of } from "rxjs";
+import { BehaviorSubject , of } from "rxjs";
 import {  map, catchError } from "rxjs/operators";
 import { AppDeleteModalityComponent } from "./components/app-delete-modality/app-delete-modality.component";
 import { RpcServiceService } from "@app/shared/services/rpc-service.service";
@@ -42,14 +42,18 @@ export class AppPickerComponent implements OnInit {
       this.isMobile = result.matches;
     });
 
-    this.errorSubject.subscribe(message => {
-      this.snackBar.open(message, "Close", {
-        duration: 3000,
-        verticalPosition: "top",
-        horizontalPosition: "center"
-      });
-
-  });
+    this.errorSubject
+    .pipe(
+      map((message) =>{
+        if(message){
+        this.snackBar.open(message, "Close", {
+          duration: 3000,
+          verticalPosition: "top",
+          horizontalPosition: "center"
+        })}
+      })
+    )
+    .subscribe();
 
   }
 
@@ -103,7 +107,8 @@ export class AppPickerComponent implements OnInit {
       map(data => {
         console.log(" remote app data ", data);
         this.remoteAppData = data['result'];
-      })
+      }),
+      catchError(() => of(this.errorSubject.next( "Load remote config failed")))
     )
     .subscribe();
   }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {  of, Observable } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { delay } from 'rxjs/internal/operators';
 import { RemoteLaunchConfigItem } from '../model/models';
 

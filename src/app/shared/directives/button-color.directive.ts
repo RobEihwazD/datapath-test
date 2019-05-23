@@ -1,7 +1,7 @@
 
 
 
-import { Directive, ElementRef, OnInit, Input, HostListener, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, OnInit, Input, Renderer2 } from '@angular/core';
 
 @Directive({
   selector: '[appButtonColor]'

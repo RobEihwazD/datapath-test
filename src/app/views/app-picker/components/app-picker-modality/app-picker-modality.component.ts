@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { FormBuilder, FormGroup, FormArray, Validators, FormControl} from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import { DefaultService } from '@app/shared/api/default.service';
 import { RemoteLaunchConfigItem, InstalledApplication } from '@app/shared';
 @Component({

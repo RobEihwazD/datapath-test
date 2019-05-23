@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { FormBuilder, FormGroup, FormArray, Validators, FormControl} from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { DefaultService } from '@app/shared/api/default.service';
 import { RemoteLaunchConfigItem } from '@app/shared';
 import { AppPickerModalityComponent } from '../app-picker-modality/app-picker-modality.component';
