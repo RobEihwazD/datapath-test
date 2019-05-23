@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl} from '@angular/forms';
 import { DefaultService } from '@app/shared/api/default.service';
-import { RemoteLaunchConfigItem } from '@app/shared';
+import { RemoteLaunchConfigItem, InstalledApplication } from '@app/shared';
 @Component({
   selector: 'app-app-picker-modality',
   templateUrl: './app-picker-modality.component.html',
@@ -11,7 +11,7 @@ import { RemoteLaunchConfigItem } from '@app/shared';
 export class AppPickerModalityComponent implements OnInit {
 
   newRemoteConfigForm: FormGroup;
-  applicationsList: string[];
+  applicationsList: Array<InstalledApplication>;
   defaultColour = '#2889e9';
   constructor(
     public dialogRef: MatDialogRef<AppPickerModalityComponent>,
@@ -23,12 +23,18 @@ export class AppPickerModalityComponent implements OnInit {
 
   ngOnInit() {
     this.api.getAvailableApplications()
-    .subscribe( data =>{
-      this.applicationsList = data;
-    });
+    .subscribe(
+      data =>{
+        this.applicationsList = data['result'], // swagger error
+        console.log(' getAvailableApplications ', data)
+      },
+      error =>{
+        console.log(' getAvailableApplications ')
+      }
+      );
 
     this.newRemoteConfigForm = this.fb.group({
-      namedApplication: ['', Validators.required],
+      targetApplication: ['', Validators.required],
       alias: ['', Validators.required],
       colour: ['', Validators.required]
     })

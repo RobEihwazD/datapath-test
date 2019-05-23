@@ -10,6 +10,11 @@
 // Be sure that you only ever include this mixin once!
 @include mat-core();
 
+$custom-typography: mat-typography-config(
+  $font-family: 'Roboto, monospace',
+  $headline: mat-typography-level(32px, 48px, 700),
+  $body-1: mat-typography-level(16px, 24px, 500)
+);
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
@@ -27,8 +32,9 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
 // that you are using.
 @include angular-material-theme($candy-app-theme);
 
+
 .launch-button {
-  background-color: #4CAF50; /* Green */
+
   border: none;
   color: white;
   padding: 15px 32px;
@@ -37,4 +43,9 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
   display: inline-block;
   font-size: 16px;
   cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, } from '@angular/common/http';
 import { ButtonColorDirective } from './directives/button-color.directive';
-import { ResponsiveColumnsDirective } from './directives/responsive-columns.directive';
+import { RpcServiceService } from '@app/shared/services/rpc-service.service'
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
-  declarations: [ButtonColorDirective, ResponsiveColumnsDirective],
+  declarations: [ButtonColorDirective],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -14,7 +14,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     ,
   ],
   exports:[
-    ButtonColorDirective, ResponsiveColumnsDirective, FlexLayoutModule
-  ]
+    ButtonColorDirective, FlexLayoutModule
+  ],
+  providers : [RpcServiceService]
 })
 export class SharedModule { }

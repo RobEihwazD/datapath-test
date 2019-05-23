@@ -1,9 +1,9 @@
 <form [formGroup]="newRemoteConfigForm" (ngSubmit)="onSubmit()">
   <mat-form-field class="full-width">
     <mat-label>Select application</mat-label>
-    <mat-select formControlName="namedApplication" name="namedApplication" required>
-      <mat-option *ngFor="let app of applicationsList" [value]="app">
-        {{ app }}
+    <mat-select formControlName="targetApplication" name="targetApplication" required>
+      <mat-option *ngFor="let app of applicationsList" [value]="app.name">
+        {{ app.name }}
       </mat-option>
     </mat-select>
   </mat-form-field>

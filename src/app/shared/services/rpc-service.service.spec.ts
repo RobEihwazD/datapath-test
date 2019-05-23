@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ApiService } from './api.service';
+import { RpcServiceService } from './rpc-service.service';
 
-describe('ApiService', () => {
+describe('RpcServiceService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: ApiService = TestBed.get(ApiService);
+    const service: RpcServiceService = TestBed.get(RpcServiceService);
     expect(service).toBeTruthy();
   });
 });
