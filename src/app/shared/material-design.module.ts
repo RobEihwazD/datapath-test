@@ -1,66 +1,40 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule } from "@angular/common";
+import { NgModule } from "@angular/core";
 import {
-  MatButtonModule,
-  MatMenuModule,
-  MatToolbarModule,
-  MatIconModule,
-  MatCardModule,
-  MatFormFieldModule,
-  MatSnackBarModule,
-  MatInputModule,
-  MatDatepickerModule,
-  MatNativeDateModule,
-  MatRadioModule,
-  MatSelectModule,
-  MatOptionModule,
-  MatGridListModule,
-  MatSlideToggleModule,
   ErrorStateMatcher,
-
+  MatButtonModule,
+  MatFormFieldModule,
+  MatGridListModule,
+  MatInputModule,
+  MatSelectModule,
+  MatSnackBarModule,
+  MatToolbarModule,
   ShowOnDirtyErrorStateMatcher
-} from '@angular/material';
-
+} from "@angular/material";
 
 @NgModule({
-
   imports: [
     CommonModule,
     MatButtonModule,
-    MatMenuModule,
     MatToolbarModule,
-    MatIconModule,
-    MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
     MatSnackBarModule,
-    MatRadioModule,
     MatSelectModule,
-    MatOptionModule,
-    MatSlideToggleModule,
     MatGridListModule
   ],
   exports: [
     MatButtonModule,
-    MatMenuModule,
+    MatButtonModule,
     MatToolbarModule,
-    MatIconModule,
-    MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-  MatSnackBarModule,
-    MatRadioModule,
+    MatSnackBarModule,
     MatSelectModule,
-    MatOptionModule,
-    MatSlideToggleModule,
     MatGridListModule
   ],
   providers: [
-    {provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}
-  ]})
-
-export class MaterialDesignModule { }
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
+  ]
+})
+export class MaterialDesignModule {}
