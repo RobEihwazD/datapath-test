@@ -1,5 +1,5 @@
 /**
- * Simple Inventory API
+ * Datapath API
  * This is a simple API
  *
  * OpenAPI spec version: 1.0.0
@@ -13,16 +13,16 @@
 
 import { Inject, Injectable, Optional } from '@angular/core';
 import {
-  HttpClient, HttpHeaders, HttpParams,
+  HttpClient, HttpHeaders,
   HttpResponse, HttpEvent
 } from '@angular/common/http';
-import { CustomHttpUrlEncodingCodec } from '../encoder';
 
 import { Observable } from 'rxjs';
 
+import { InstalledApplication } from '../model/installedApplication';
 import { RemoteLaunchConfigItem } from '../model/remoteLaunchConfigItem';
 
-import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
+import { BASE_PATH } from '../variables';
 import { Configuration } from '../configuration';
 
 
@@ -61,19 +61,14 @@ export class DefaultService {
   /**
    * creates new config object
    * Adds an app config item to the system
-   * @param id id for looking up app config
    * @param remoteLaunchConfigItem remoteLaunchConfigItem item to add
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public createRemoteLaunchConfigItem(id: number, remoteLaunchConfigItem?: RemoteLaunchConfigItem, observe?: 'body', reportProgress?: boolean): Observable<any>;
-  public createRemoteLaunchConfigItem(id: number, remoteLaunchConfigItem?: RemoteLaunchConfigItem, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-  public createRemoteLaunchConfigItem(id: number, remoteLaunchConfigItem?: RemoteLaunchConfigItem, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-  public createRemoteLaunchConfigItem(id: number, remoteLaunchConfigItem?: RemoteLaunchConfigItem, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
-
-    if (id === null || id === undefined) {
-      throw new Error('Required parameter id was null or undefined when calling createRemoteLaunchConfigItem.');
-    }
+  public createRemoteLaunchConfigItem(remoteLaunchConfigItem?: RemoteLaunchConfigItem, observe?: 'body', reportProgress?: boolean): Observable<any>;
+  public createRemoteLaunchConfigItem(remoteLaunchConfigItem?: RemoteLaunchConfigItem, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+  public createRemoteLaunchConfigItem(remoteLaunchConfigItem?: RemoteLaunchConfigItem, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+  public createRemoteLaunchConfigItem(remoteLaunchConfigItem?: RemoteLaunchConfigItem, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
 
 
     let headers = this.defaultHeaders;
@@ -96,7 +91,7 @@ export class DefaultService {
       headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
-    return this.httpClient.post<any>(`${this.basePath}/application/${encodeURIComponent(String(id))}`,
+    return this.httpClient.post<any>(`${this.basePath}/remoteConfigs`,
       remoteLaunchConfigItem,
       {
         withCredentials: this.configuration.withCredentials,
@@ -114,10 +109,10 @@ export class DefaultService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public deleteRemoteLaunchConfigItem(id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-  public deleteRemoteLaunchConfigItem(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-  public deleteRemoteLaunchConfigItem(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-  public deleteRemoteLaunchConfigItem(id: number, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+  public deleteRemoteLaunchConfigItem(id: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+  public deleteRemoteLaunchConfigItem(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+  public deleteRemoteLaunchConfigItem(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+  public deleteRemoteLaunchConfigItem(id: string, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
 
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling deleteRemoteLaunchConfigItem.');
@@ -137,7 +132,43 @@ export class DefaultService {
     const consumes: string[] = [
     ];
 
-    return this.httpClient.delete<any>(`${this.basePath}/application/${encodeURIComponent(String(id))}`,
+    return this.httpClient.delete<any>(`${this.basePath}/remoteConfig/${encodeURIComponent(String(id))}`,
+      {
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  /**
+   * gets available apps
+   * gets list of available app configs
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getAllRemoteAppConfigs(observe?: 'body', reportProgress?: boolean): Observable<Array<RemoteLaunchConfigItem>>;
+  public getAllRemoteAppConfigs(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<RemoteLaunchConfigItem>>>;
+  public getAllRemoteAppConfigs(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<RemoteLaunchConfigItem>>>;
+  public getAllRemoteAppConfigs(observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+
+    let headers = this.defaultHeaders;
+
+    // to determine the Accept header
+    let httpHeaderAccepts: string[] = [
+      'application/json'
+    ];
+    const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    if (httpHeaderAcceptSelected != undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    // to determine the Content-Type header
+    const consumes: string[] = [
+    ];
+
+    return this.httpClient.get<Array<RemoteLaunchConfigItem>>(`${this.basePath}/remoteConfigs`,
       {
         withCredentials: this.configuration.withCredentials,
         headers: headers,
@@ -153,9 +184,9 @@ export class DefaultService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public getAvailableApplications(observe?: 'body', reportProgress?: boolean): Observable<Array<string>>;
-  public getAvailableApplications(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<string>>>;
-  public getAvailableApplications(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<string>>>;
+  public getAvailableApplications(observe?: 'body', reportProgress?: boolean): Observable<Array<InstalledApplication>>;
+  public getAvailableApplications(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<InstalledApplication>>>;
+  public getAvailableApplications(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<InstalledApplication>>>;
   public getAvailableApplications(observe: any = 'body', reportProgress: boolean = false): Observable<any> {
 
     let headers = this.defaultHeaders;
@@ -173,7 +204,7 @@ export class DefaultService {
     const consumes: string[] = [
     ];
 
-    return this.httpClient.get<Array<string>>(`${this.basePath}/applications`,
+    return this.httpClient.get<Array<InstalledApplication>>(`${this.basePath}/applications`,
       {
         withCredentials: this.configuration.withCredentials,
         headers: headers,
@@ -190,10 +221,10 @@ export class DefaultService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public getRemoteLaunchConfigItemById(id: number, observe?: 'body', reportProgress?: boolean): Observable<Array<RemoteLaunchConfigItem>>;
-  public getRemoteLaunchConfigItemById(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<RemoteLaunchConfigItem>>>;
-  public getRemoteLaunchConfigItemById(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<RemoteLaunchConfigItem>>>;
-  public getRemoteLaunchConfigItemById(id: number, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+  public getRemoteLaunchConfigItemById(id: string, observe?: 'body', reportProgress?: boolean): Observable<Array<RemoteLaunchConfigItem>>;
+  public getRemoteLaunchConfigItemById(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<RemoteLaunchConfigItem>>>;
+  public getRemoteLaunchConfigItemById(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<RemoteLaunchConfigItem>>>;
+  public getRemoteLaunchConfigItemById(id: string, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
 
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling getRemoteLaunchConfigItemById.');
@@ -214,7 +245,7 @@ export class DefaultService {
     const consumes: string[] = [
     ];
 
-    return this.httpClient.get<Array<RemoteLaunchConfigItem>>(`${this.basePath}/application/${encodeURIComponent(String(id))}`,
+    return this.httpClient.get<Array<RemoteLaunchConfigItem>>(`${this.basePath}/remoteConfig/${encodeURIComponent(String(id))}`,
       {
         withCredentials: this.configuration.withCredentials,
         headers: headers,
@@ -232,10 +263,10 @@ export class DefaultService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public updateRemoteLaunchConfigItem(id: number, remoteLaunchConfigItem?: RemoteLaunchConfigItem, observe?: 'body', reportProgress?: boolean): Observable<any>;
-  public updateRemoteLaunchConfigItem(id: number, remoteLaunchConfigItem?: RemoteLaunchConfigItem, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-  public updateRemoteLaunchConfigItem(id: number, remoteLaunchConfigItem?: RemoteLaunchConfigItem, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-  public updateRemoteLaunchConfigItem(id: number, remoteLaunchConfigItem?: RemoteLaunchConfigItem, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+  public updateRemoteLaunchConfigItem(id: string, remoteLaunchConfigItem?: RemoteLaunchConfigItem, observe?: 'body', reportProgress?: boolean): Observable<any>;
+  public updateRemoteLaunchConfigItem(id: string, remoteLaunchConfigItem?: RemoteLaunchConfigItem, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+  public updateRemoteLaunchConfigItem(id: string, remoteLaunchConfigItem?: RemoteLaunchConfigItem, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+  public updateRemoteLaunchConfigItem(id: string, remoteLaunchConfigItem?: RemoteLaunchConfigItem, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
 
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling updateRemoteLaunchConfigItem.');
@@ -262,7 +293,7 @@ export class DefaultService {
       headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
-    return this.httpClient.put<any>(`${this.basePath}/application/${encodeURIComponent(String(id))}`,
+    return this.httpClient.put<any>(`${this.basePath}/remoteConfig/${encodeURIComponent(String(id))}`,
       remoteLaunchConfigItem,
       {
         withCredentials: this.configuration.withCredentials,

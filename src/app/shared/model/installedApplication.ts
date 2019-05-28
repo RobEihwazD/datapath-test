@@ -11,9 +11,8 @@
  */
 
 
-export interface RemoteLaunchConfigItem {
+export interface InstalledApplication { 
     id: string;
-    targetApplication: string;
-    colour: string;
-    alias: string;
+    path: string;
+    name: string;
 }

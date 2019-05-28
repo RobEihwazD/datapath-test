@@ -4,10 +4,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from '@app/shared/shared.module';
+import { ApiModule} from '@app/shared/api.module'
 import { MaterialDesignModule } from '@app/shared/material-design.module';
 import { ViewsModule } from '@app/views/views.module';
+import { BASE_PATH } from './shared';
+import {environment} from '@env/environment'
 
-import { ApiModule } from '@app/shared';
+
 
 
 @NgModule({
@@ -23,7 +26,9 @@ import { ApiModule } from '@app/shared';
     SharedModule,
     ApiModule
   ],
-  providers: [],
+  providers: [
+    {provide: BASE_PATH, useValue: environment.basePath}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

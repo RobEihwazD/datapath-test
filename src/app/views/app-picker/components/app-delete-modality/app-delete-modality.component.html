@@ -1,3 +1,15 @@
-<p>
-  app-delete-modality works!
-</p>
+<form [formGroup]="configDeleteForm" (ngSubmit)="onSubmit()">
+  <mat-form-field class="full-width">
+    <mat-label>Select application</mat-label>
+    <mat-select formControlName="targetConfig" name="targetConfig" (selectionChange)="onConfigSelected($event)" required>
+      <mat-option *ngFor="let conf of availableConfigs" [value]="conf">
+        {{ conf.alias }}  ' : '  {{ conf.targetApplication }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div class="mat-typography">
+    <p> {{selectedConfig}}</p>
+  </div>
+  <button mat-button type="submit" [disabled]="configDeleteForm.invalid">Delete</button>
+
+</form>

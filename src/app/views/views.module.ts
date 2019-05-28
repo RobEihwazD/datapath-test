@@ -28,7 +28,8 @@ import { AppDeleteModalityComponent } from './app-picker/components/app-delete-m
     AppPickerModalityComponent
   ],
   entryComponents :[
-    AppPickerModalityComponent
+    AppPickerModalityComponent,
+    AppDeleteModalityComponent
   ]
 
 })

@@ -1,13 +1,13 @@
 <div>
-  <mat-toolbar fxLayout="row" fxLayoutAlign="space-evenly center" color="secondary">
-    <mat-toolbar-row>
-      <button mat-button type="button" (click)="addRemoteAppConfig()">
+  <mat-toolbar color="secondary">
+    <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-evenly center">
+      <button mat-button type="button" (click)="launchAddRemoteAppConfigModal()">
 
         <div ngStyle.sm="'font-size': '12px'" ngStyle.gt-sm="font-size: 16px">
           <p>Add Config</p>
         </div>
       </button>
-      <button mat-button type="button" (click)="deleteRemoteConfig()">
+      <button mat-button type="button" (click)="launchDeleteRemoteAppConfigModal()">
         <div ngStyle.sm="'font-size': '12px'" ngStyle.gt-sm="font-size: 16px">
           <p>Delete Config</p>
         </div>
@@ -19,7 +19,7 @@
       fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
       <mat-grid-tile *ngFor="let config of remoteAppData">
         <button type="button" id="config.id" class="launch-button"
-          [appButtonColor]="config.colour">{{config.alias}}</button>
+          [appButtonColor]="config.colour" [disabled]="routineRunning" (click)="runRemoteApp(config)">{{config.alias}}</button>
       </mat-grid-tile>
     </mat-grid-list>
   </form>
