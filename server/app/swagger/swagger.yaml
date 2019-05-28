@@ -1,0 +1,180 @@
+---
+swagger: "2.0"
+info:
+  description: "This is a simple API"
+  version: "1.0.0"
+  title: "Datapath API"
+  contact:
+    email: "you@your-company.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "virtserver.swaggerhub.com"
+basePath: "/Datapath/1.0.0"
+schemes:
+- "https"
+paths:
+  /applications:
+    get:
+      summary: "gets availables apps"
+      description: "gets list of available apps\n"
+      operationId: app.get_available_applications
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "search results matching criteria"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/InstalledApplication"
+        400:
+          description: "server error"
+  
+  /remoteConfigs:
+    get:
+      summary: "gets available apps"
+      description: "gets list of available app configs\n"
+      operationId: app.get_all_remote_app_configs
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "search results matching criteria"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/RemoteLaunchConfigItem"
+        400:
+          description: "server error"
+    
+    post:
+      summary: "creates new config object"
+      description: "Adds an app config item to the system\n"
+      operationId: app.create_remote_launch_config_item
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "remoteLaunchConfigItem"
+        description: "remoteLaunchConfigItem item to add"
+        required: false
+        schema:
+          $ref: "#/definitions/RemoteLaunchConfigItem"
+      responses:
+        201:
+          description: "item created"
+        400:
+          description: "invalid input, object invalid"
+  
+  /remoteConfig/{id}:
+    get:
+      summary: "gets config object by id"
+      description: "By passing in the appropriate options, you can search for\navailable\
+        \ apps in the system\n"
+      operationId: app.get_remote_launch_config_item_by_id
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "id for looking up app config"
+        required: true
+        type: "string"
+        format: "uuid"
+      responses:
+        200:
+          description: "search results matching criteria"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/RemoteLaunchConfigItem"
+        400:
+          description: "bad input parameter"
+    
+    put:
+      summary: "updates existing config object"
+      description: "updates existing config object\n"
+      operationId: app.update_remote_launch_config_item
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "id for looking up app config"
+        required: true
+        type: "string"
+        format: "uuid"
+      - in: "body"
+        name: "remoteLaunchConfigItem"
+        description: "remoteLaunchConfigItem item to add"
+        required: false
+        schema:
+          $ref: "#/definitions/RemoteLaunchConfigItem"
+      responses:
+        200:
+          description: "item updated"
+        400:
+          description: "invalid input, object invalid"
+     
+    delete:
+      summary: "deletes existing config object"
+      description: "deletes an app config item to the system\n"
+      operationId: app.delete_remote_launch_config_item
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "id for looking up app config"
+        required: true
+        type: "string"
+        format: "uuid"
+      responses:
+        200:
+          description: "item deleted"
+        400:
+          description: "invalid input, object invalid"
+     
+definitions:
+  RemoteLaunchConfigItem:
+    type: "object"
+    properties:
+      _id:
+        type: "string"
+        format: "uuid"
+        example: "hgj-78h-jhgj8jw3napaj-7899hm"
+      targetApplication:
+        type: "string"
+        example: "notepad.exe"
+      colour:
+        type: "string"
+      alias:
+        type: "string"
+        example: "notepad.exe"
+    example:
+      targetApplication: "notepad.exe"
+      colour: "colour"
+      alias: "notepad.exe"
+      _id: "hgj-78h-jhgj8jw3napaj-7899hm"
+  InstalledApplication:
+    type: "object"
+    properties:
+      _id:
+        type: "string"
+        format: "uuid"
+        example: "hgj-78h-jhgj8jw3napaj-7899hm"
+      path:
+        type: "string"
+        example: "~/apps/"
+      name:
+        type: "string"
+        example: "notepad.exe"
+    example:
+      path: "~/apps/"
+      name: "notepad.exe"
+      _id: "hgj-78h-jhgj8jw3napaj-7899hm"
